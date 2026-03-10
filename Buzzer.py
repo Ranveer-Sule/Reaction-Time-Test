@@ -6,6 +6,8 @@ notes = {
     "E5": 659,
     "G5": 784,
     "C6": 1047,
+    "A4": 440,
+    "F4": 349,
 }
 class Buzzer:
     def __init__(self, pin):
@@ -24,4 +26,10 @@ class Buzzer:
         self.play_note("E5", 0.2)
         self.play_note("G5", 0.2)
         self.play_note("C6", 0.2)
+        
+    def loser_sound(self):
+        self.play_note("C6", 0.3)
+        self.play_note("A4", 0.3)
+        self.play_note("F4", 0.3)
+        self.play_note("C5", 0.5)
     
