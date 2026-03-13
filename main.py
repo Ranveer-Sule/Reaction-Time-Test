@@ -1,39 +1,12 @@
-from machine import Pin,PWM
-from Buzzer import Buzzer
+from game import Game
 import time
-import random
 
-red_led = Pin(13, Pin.OUT)
-green_led = Pin(12, Pin.OUT)
-button = Pin(17, Pin.IN, Pin.PULL_DOWN)
-buzzer = Buzzer(16)
+# Initialize the game with hardware pin numbers
+game = Game(red_led_pin=13, green_led_pin=12, button_pin=17, buzzer_pin=16, servo_pin=18)
 
+# Main game loop
+score = 0
 while True:
-    random_int = random.randint(1, 4)
-    random_length = random.random() * random_int + 1
-    start_time = time.ticks_ms()
-    
-    while time.ticks_diff(time.ticks_ms(), start_time) < random_length * 1000:
-        red_led.value(1)
-        green_led.value(0)
-        if time.ticks_diff(time.ticks_ms(), start_time) < random_length * 1000 and button.value() == 1:
-            print('Do not press the button before Green LED turns on')
-            buzzer.loser_sound()
-        
-    red_led.value(0)
-    green_led.value(1)
-    
-    button_press_time = time.ticks_ms()
-    while button.value() == 0:
-        pass  
-    reaction_time = time.ticks_diff(time.ticks_ms(), button_press_time)
-    
-    green_led.value(0)
-    
-    if reaction_time < 200:
-        buzzer.winner_sound()
-    else:
-        buzzer.loser_sound()
-    
-    print(f"Reaction Time: {reaction_time} ms")
+    won, score = game.run_round(score)
+    game.display_result()
     time.sleep(2)

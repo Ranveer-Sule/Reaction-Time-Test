@@ -11,7 +11,13 @@
       "rotate": 90,
       "attrs": {}
     },
-    { "type": "wokwi-pi-pico", "id": "pico", "top": -127.95, "left": -34.8, "attrs": {} },
+    {
+      "type": "wokwi-pi-pico",
+      "id": "pico",
+      "top": -127.95,
+      "left": -34.8,
+      "attrs": { "env": "micropython-20231005-v1.21.0" }
+    },
     {
       "type": "wokwi-led",
       "id": "led1",
@@ -72,6 +78,13 @@
       "left": 114.65,
       "rotate": 90,
       "attrs": { "value": "180" }
+    },
+    {
+      "type": "wokwi-servo",
+      "id": "servo1",
+      "top": -155.6,
+      "left": -316.8,
+      "attrs": { "hornColor": "#ccc" }
     }
   ],
   "connections": [
@@ -87,7 +100,10 @@
     [ "bb2:5t.b", "bb2:tn.5", "green", [ "h0" ] ],
     [ "bz1:1", "pico:GND.3", "black", [ "h-153.6", "v-240" ] ],
     [ "r4:1", "bb2:22t.b", "red", [ "v-38.4" ] ],
-    [ "r4:2", "bz1:2", "red", [ "v75.6", "h-153.2" ] ],
+    [ "r4:2", "bz1:2", "red", [ "v66", "h-364.4" ] ],
+    [ "servo1:GND", "pico:GND.1", "#8f4814", [ "v-66.4", "h285.2" ] ],
+    [ "servo1:V+", "pico:VBUS", "red", [ "v39.3", "h351.2" ] ],
+    [ "servo1:PWM", "pico:GP3", "orange", [ "v58.6", "h285.2" ] ],
     [ "pico:GP0", "bb2:3b.h", "", [ "$bb" ] ],
     [ "pico:GP1", "bb2:4b.h", "", [ "$bb" ] ],
     [ "pico:GND.1", "bb2:5b.h", "", [ "$bb" ] ],
@@ -130,14 +146,14 @@
     [ "pico:VBUS", "bb2:3t.c", "", [ "$bb" ] ],
     [ "led1:A", "bb2:25b.h", "", [ "$bb" ] ],
     [ "led1:C", "bb2:26b.h", "", [ "$bb" ] ],
+    [ "r1:1", "bb2:19b.i", "", [ "$bb" ] ],
+    [ "r1:2", "bb2:25b.i", "", [ "$bb" ] ],
     [ "led2:A", "bb2:29b.h", "", [ "$bb" ] ],
     [ "led2:C", "bb2:28b.h", "", [ "$bb" ] ],
     [ "btn1:1.l", "bb2:30b.f", "", [ "$bb" ] ],
     [ "btn1:2.l", "bb2:32b.f", "", [ "$bb" ] ],
     [ "btn1:1.r", "bb2:30t.e", "", [ "$bb" ] ],
     [ "btn1:2.r", "bb2:32t.e", "", [ "$bb" ] ],
-    [ "r1:1", "bb2:19b.i", "", [ "$bb" ] ],
-    [ "r1:2", "bb2:25b.i", "", [ "$bb" ] ],
     [ "r3:1", "bb2:30t.d", "", [ "$bb" ] ],
     [ "r3:2", "bb2:tn.24", "", [ "$bb" ] ]
   ],
