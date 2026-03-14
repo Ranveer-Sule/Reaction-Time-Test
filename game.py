@@ -20,18 +20,27 @@ class Game:
         random_int = random.randint(1, 4)
         return random.random() * random_int + 1
     
-    def red_led_phase(self, duration): # Run the red LED phase and check for early button presses
+    def red_led_phase(self, duration):
         self.red_led.value(1)
         self.green_led.value(0)
-        
         start_time = time.ticks_ms()
         while time.ticks_diff(time.ticks_ms(), start_time) < duration * 1000:
             if self.button.value() == 1:
+                self.red_led.value(0)
                 print('Do not press the button before Green LED turns on')
-                return True  
-        
+                return True
+        self.red_led.value(0)
         return False
     
+    def pre_game(self):
+        while self.button.value() == 0:
+            time.sleep_ms(10)
+        time.sleep_ms(50) 
+        while self.button.value() == 1:
+            self.buzzer.start_sound()
+            time.sleep_ms(10)
+        return True
+
     def set_servo(self): 
         duty = int(1638 + (6554/24) * self.score)
         self.servo.duty_u16(duty)
@@ -51,7 +60,6 @@ class Game:
     
     def run_round(self, score):
         delay = self.generate_random_delay()
-        
         # Red LED phase with early press detection
         early_press = self.red_led_phase(delay)
         if early_press:
@@ -82,3 +90,4 @@ class Game:
     
     def display_result(self):
         print(f"Reaction Time: {self.reaction_time} ms")
+        print(f"Score: {self.score}")

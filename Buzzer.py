@@ -3,12 +3,14 @@ import utime
 
 notes = {
     "C5": 523,
+    "D5": 587,
     "E5": 659,
     "G5": 784,
     "C6": 1047,
     "A4": 440,
     "F4": 349,
 }
+
 class Buzzer:
     def __init__(self, pin):
         self.buzzer = machine.PWM(machine.Pin(pin))
@@ -20,6 +22,12 @@ class Buzzer:
             utime.sleep(duration)
             self.buzzer.duty_u16(0)
             utime.sleep(0.05)
+
+    def start_sound(self):
+        self.play_note("A4", 0.2)
+        self.play_note("C5", 0.2)
+        self.play_note("E5", 0.2)
+        self.play_note("A4", 0.2)
         
     def winner_sound(self):
         self.play_note("C5", 0.2)
