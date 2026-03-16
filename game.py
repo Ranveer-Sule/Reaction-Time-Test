@@ -84,6 +84,7 @@ class Game:
             score = 0
             self.score = score
             self.set_servo_duty(self.DUTY_MIN)
+            self.pre_game()
             return False, score
         self.green_led_phase()
 
@@ -97,6 +98,7 @@ class Game:
             score = 0
             self.score = score
             self.set_servo_duty(self.DUTY_MIN)
+            self.pre_game()
             return False, score
 
     def display_result(self):
