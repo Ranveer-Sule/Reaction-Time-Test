@@ -92,6 +92,7 @@ class Game:
             self.buzzer.winner_sound()
             score += 1
             self.score = score
+            self.set_servo_duty(self.DUTY_MIN)
             return True, score
         else:
             self.buzzer.loser_sound()
