@@ -98,6 +98,7 @@ class Game:
             self.score = score
             self.update_reaction_limit()
             self.set_servo_duty(self.DUTY_MIN)
+            print("Press the button to start the next round.")
             self.pre_game()
             return False, score
 
@@ -116,6 +117,8 @@ class Game:
             self.score = score
             self.update_reaction_limit()
             self.set_servo_duty(self.DUTY_MIN)
+            print("Too slow! Try again.")
+            print("Press the button to start the next round.")
             self.pre_game()
             return False, score
 

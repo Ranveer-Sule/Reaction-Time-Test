@@ -11,5 +11,8 @@ print("Press the button to start the game.")
 game.pre_game()  # Wait for initial button press to start the game
 while True:
     won, score = game.run_round(score)
-    game.display_result()
+    if won:
+        game.display_result()
+    else:
+        pass
     time.sleep(2)
