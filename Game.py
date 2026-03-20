@@ -52,7 +52,6 @@ class Game:
         while time.ticks_diff(time.ticks_ms(), start_time) < duration * 1000:
             if self.button.value() == 1:
                 self.red_led.value(0)
-                print("Do not press the button before Green LED turns on")
                 return True
 
         self.red_led.value(0)
@@ -60,12 +59,27 @@ class Game:
 
     def pre_game(self):
         while self.button.value() == 0:
+            self.red_led.value(1)
+            self.green_led.value(1)
             time.sleep_ms(10)
         time.sleep_ms(50)
         while self.button.value() == 1:
             self.buzzer.start_sound()
-            time.sleep_ms(10)
+            self.red_led.value(0)
+            self.green_led.value(0)
+            time.sleep_ms(50)
         return True
+    
+    def show_score(self, score_to_show=None):
+        if score_to_show is None:
+            score_to_show = self.score
+        x = 0
+        while x < score_to_show:
+            self.green_led.value(1)
+            time.sleep_ms(350)
+            self.green_led.value(0)
+            time.sleep_ms(350)
+            x += 1
 
     def green_led_phase(self):
         self.red_led.value(0)
@@ -93,12 +107,14 @@ class Game:
         early_press = self.red_led_phase(delay)
 
         if early_press:
+            old_score = score
             self.buzzer.loser_sound()
+            time.sleep_ms(500)
+            self.show_score(old_score)   # show score before reset
             score = 0
             self.score = score
             self.update_reaction_limit()
             self.set_servo_duty(self.DUTY_MIN)
-            print("Press the button to start the next round.")
             self.pre_game()
             return False, score
 
@@ -112,16 +128,15 @@ class Game:
             self.set_servo_duty(self.DUTY_MIN)
             return True, score
         else:
+            old_score = score
             self.buzzer.loser_sound()
+            time.sleep_ms(500)
+            self.show_score(old_score)   # show score before reset
+
             score = 0
             self.score = score
             self.update_reaction_limit()
             self.set_servo_duty(self.DUTY_MIN)
-            print("Too slow! Try again.")
-            print("Press the button to start the next round.")
+
             self.pre_game()
             return False, score
-
-    def display_result(self):
-        print(f"Reaction Time: {self.reaction_time} ms")
-        print(f"Score: {self.score}")
