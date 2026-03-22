@@ -44,6 +44,11 @@ class Game:
         duty = self.DUTY_MIN + ratio * (self.DUTY_MAX - self.DUTY_MIN)
         self.servo.duty_u16(int(duty))
 
+    def wait_for_button_release(self, debounce_ms=50):
+        while self.button.value() == 1:
+            time.sleep_ms(10)
+        time.sleep_ms(debounce_ms)
+
     def red_led_phase(self, duration):
         self.red_led.value(1)
         self.green_led.value(0)
@@ -58,16 +63,22 @@ class Game:
         return False
 
     def pre_game(self):
+        self.wait_for_button_release()
+
         while self.button.value() == 0:
             self.red_led.value(1)
             self.green_led.value(1)
             time.sleep_ms(10)
+
         time.sleep_ms(50)
+
+        self.buzzer.start_sound()
         while self.button.value() == 1:
-            self.buzzer.start_sound()
             self.red_led.value(0)
             self.green_led.value(0)
-            time.sleep_ms(50)
+            time.sleep_ms(10)
+
+        time.sleep_ms(50)
         return True
     
     def show_score(self, score_to_show=None):
@@ -101,6 +112,7 @@ class Game:
         return self.reaction_time
 
     def run_round(self, score):
+        self.wait_for_button_release()
         self.score = score
         self.update_reaction_limit()
         delay = self.generate_random_delay()

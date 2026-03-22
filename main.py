@@ -8,8 +8,5 @@ game = Game(red_led_pin=13, green_led_pin=12, button_pin=17, buzzer_pin=16, serv
 score = 0
 game.pre_game() # Wait for the player to press the button to start the game
 while True:
-    previous_score = score
-    won, score = game.run_round(score)
-    if won:
-        pass
+    _, score = game.run_round(score)
     time.sleep(2)
